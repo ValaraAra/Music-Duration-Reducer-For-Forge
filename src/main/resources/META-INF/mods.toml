@@ -1,35 +1,24 @@
 modLoader="javafml" #mandatory
 loaderVersion="[34,)"
 license="GNU Lesser General Public License v3.0"
-issueTrackerURL="http://my.issue.tracker/" #optional
-[[mods]] #mandatory
-modId="examplemod" #mandatory
-version="${file.jarVersion}" #mandatory
-displayName="Example Mod" #mandatory
-updateJSONURL="http://myurl.me/" #optional
-displayURL="http://example.com/" #optional
-logoFile="examplemod.png" #optional
-credits="Thanks for this example mod goes to Java" #optional
-authors="Love, Cheese and small house plants" #optional
+issueTrackerURL="https://github.com/LudoCrypt/Music-Duration-Recuder-For-Forge/issues"
+[[mods]]
+modId="musicdr"
+version="${file.jarVersion}"
+displayName="Music Duration Reducer"
+updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/music-duration-reducer"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/music-duration-reducer"
+logoFile="logo.png"
+credits="LudoCrypt"
+authors="LudoCrypt"
 description='''
 This is a mod that reduces the duration inbetween music. Cross mod compatablility!
 '''
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.examplemod]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[34,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-    side="BOTH"
-# Here's another dependency
-[[dependencies.examplemod]]
-    modId="minecraft"
+
+[[dependencies.musicdr]] #optional
+    modId="forge"
     mandatory=true
-    versionRange="[1.16.3]"
+    versionRange="[34,)"
     ordering="NONE"
-    side="BOTH"
+    side="CLIENT"
+
