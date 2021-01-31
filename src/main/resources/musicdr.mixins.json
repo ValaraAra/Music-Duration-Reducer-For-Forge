@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "net.ludocrypt.musicdr.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"refmap": "musicdr.refmap.json",
+	"mixins": [
+	],
+	"client": [
+		"MusicMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
