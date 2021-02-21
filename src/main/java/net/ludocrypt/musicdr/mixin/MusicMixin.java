@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class MusicMixin {
 
 	@Inject(method = "getMinDelay", at = @At("RETURN"), cancellable = true)
-	private void getMinDelay(CallbackInfoReturnable<Integer> ci) {
+	private void musicDr_getMinDelay(CallbackInfoReturnable<Integer> ci) {
 
 		if (MusicConfig.divide.get()) {
 			ci.setReturnValue(ci.getReturnValue() / MusicConfig.division.get());
@@ -26,7 +26,7 @@ public class MusicMixin {
 	}
 
 	@Inject(method = "getMaxDelay", at = @At("RETURN"), cancellable = true)
-	private void getMaxDelay(CallbackInfoReturnable<Integer> ci) {
+	private void musicDr_getMaxDelay(CallbackInfoReturnable<Integer> ci) {
 
 		if (MusicConfig.divide.get()) {
 			ci.setReturnValue(ci.getReturnValue() / MusicConfig.division.get());

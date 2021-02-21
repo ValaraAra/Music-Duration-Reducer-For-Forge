@@ -1,7 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[34,)"
 license="GNU Lesser General Public License v3.0"
-issueTrackerURL="https://github.com/LudoCrypt/Music-Duration-Recuder-For-Forge/issues"
+issueTrackerURL="https://github.com/LudoCrypt/Music-Duration-Reducer-For-Forge/issues"
 [[mods]]
 modId="musicdr"
 version="${file.jarVersion}"

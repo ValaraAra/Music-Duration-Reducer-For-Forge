@@ -7,7 +7,8 @@
 	"mixins": [
 	],
 	"client": [
-		"MusicMixin"
+		"MusicMixin",
+		"SimpleSoundMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
