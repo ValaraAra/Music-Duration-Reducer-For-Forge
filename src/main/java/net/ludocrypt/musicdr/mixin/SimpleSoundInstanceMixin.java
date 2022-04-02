@@ -1,32 +1,30 @@
 package net.ludocrypt.musicdr.mixin;
 
-import java.util.Random;
-
+import net.ludocrypt.musicdr.MusicDr;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import net.ludocrypt.musicdr.config.ExperimentalMusicConfig;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import java.util.Random;
 
-@OnlyIn(value = Dist.CLIENT)
-@Mixin(value = SimpleSoundInstance.class, priority = 100)
+@Mixin(SimpleSoundInstance.class)
 public class SimpleSoundInstanceMixin {
 
-	@Inject(method = "forMusic(Lnet/minecraft/sounds/SoundEvent;)Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;", at = @At("RETURN"), cancellable = true)
-	private static void musicDr$changePitch(SoundEvent music, CallbackInfoReturnable<SimpleSoundInstance> ci) {
-		Random random = new Random();
-		if (ExperimentalMusicConfig.distortPitch.get() && (random.nextDouble() < ExperimentalMusicConfig.chanceToPitchChange.get())) {
-			int note = random.nextInt((ExperimentalMusicConfig.maxNoteChange.get() - ExperimentalMusicConfig.minNoteChange.get()) + 1) + ExperimentalMusicConfig.minNoteChange.get();
-			double newPitch = Math.pow(2.0D, (double) (note) / 12.0D);
-			ci.setReturnValue(new SimpleSoundInstance(music.getLocation(), SoundSource.MUSIC, 1.0F, (float) newPitch, false, 0, SoundInstance.Attenuation.NONE, 0.0D, 0.0D, 0.0D, true));
+	@ModifyArg(method = "forMusic", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;<init>(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/sounds/SoundSource;FFZILnet/minecraft/client/resources/sounds/SoundInstance$Attenuation;DDDZ)V"), index = 3)
+	private static float musicdr$music(float in) {
+		if (MusicDr.ExperimentalMusicConfig.chanceToPitchChange != null) {
+			if (MusicDr.ExperimentalMusicConfig.distortPitch.get()) {
+				Random random = new Random();
+				if (random.nextDouble() < MusicDr.ExperimentalMusicConfig.chanceToPitchChange.get()) {
+					float note = Mth.randomBetween(random, (float) Math.min(MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()), (float) Math.max(MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()));
+					float pitch = (float) Math.pow(2.0F, note / 12.0F);
+					return Mth.clamp(pitch, 0.5F, 2.0F);
+				}
+			}
 		}
+		return in;
 	}
 
 }
