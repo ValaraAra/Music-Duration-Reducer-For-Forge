@@ -8,23 +8,25 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.ludocrypt.musicdr.MusicDr;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
 @Mixin(SimpleSoundInstance.class)
 public class SimpleSoundInstanceMixin {
 
-	@ModifyArg(method = "forMusic", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;<init>(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/sounds/SoundSource;FFZILnet/minecraft/client/resources/sounds/SoundInstance$Attenuation;DDDZ)V"), index = 3)
+	@ModifyArg(method = "forMusic", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;<init>(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/sounds/SoundSource;FFLnet/minecraft/util/RandomSource;ZILnet/minecraft/client/resources/sounds/SoundInstance$Attenuation;DDDZ)V"), index = 3)
 	private static float musicdr$music(float in) {
 		if (MusicDr.ExperimentalMusicConfig.chanceToPitchChange != null) {
 			if (MusicDr.ExperimentalMusicConfig.distortPitch.get()) {
-				Random random = new Random();
+				RandomSource random = SoundInstance.createUnseededRandom();
 				if (random.nextDouble() < MusicDr.ExperimentalMusicConfig.chanceToPitchChange.get()) {
 					float note;
 
 					if (MusicDr.ExperimentalMusicConfig.bellDistribution.get()) {
 						note = (float) Mth.clamp(normal(1.0D / MusicDr.ExperimentalMusicConfig.bellStandardDeviationReciprocal.get()) * 0.25D, MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get());
 					} else {
-						note = Mth.m_14068_(random, (float) Mth.clamp(MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()), (float) Mth.clamp(MusicDr.ExperimentalMusicConfig.maxNoteChange.get(), MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()));
+						note = Mth.nextFloat(random, (float) Mth.clamp(MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()), (float) Mth.clamp(MusicDr.ExperimentalMusicConfig.maxNoteChange.get(), MusicDr.ExperimentalMusicConfig.minNoteChange.get(), MusicDr.ExperimentalMusicConfig.maxNoteChange.get()));
 					}
 
 					float pitch = (float) Math.pow(2.0F, note / 12.0F);
