@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-		classpath 'org.spongepowered:mixingradle:0.7.+'
+		classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
 	}
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = "3.0.0"
+version = "3.0.0-hotfix"
 group = "net.ludocrypt.musicdr"
 archivesBaseName = "musicdr"
 
@@ -58,10 +58,16 @@ minecraft {
 	}
 }
 
+mixin {
+	add sourceSets.main, "${archivesBaseName}.refmap.json"
+	config "${archivesBaseName}.mixins.json"
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
 	minecraft 'net.minecraftforge:forge:1.19.2-43.1.34'
+	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 if (System.getProperty("idea.sync.active") == "true") {
@@ -70,11 +76,6 @@ if (System.getProperty("idea.sync.active") == "true") {
 			it.options.annotationProcessorPath = files()
 		}
 	}
-}
-
-mixin {
-	add sourceSets.main, "${archivesBaseName}.refmap.json"
-	config "${archivesBaseName}.mixins.json"
 }
 
 jar {
