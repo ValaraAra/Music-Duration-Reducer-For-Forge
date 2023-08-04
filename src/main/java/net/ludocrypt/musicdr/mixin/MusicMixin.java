@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.ludocrypt.musicdr.MusicDr;
-import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
+import net.minecraft.sounds.Music;
+import net.ludocrypt.musicdr.config.MusicDrConfig;
 
 @Mixin(Music.class)
 public class MusicMixin {
@@ -24,22 +24,22 @@ public class MusicMixin {
 
 	@Inject(method = "getMinDelay", at = @At("RETURN"), cancellable = true)
 	public void musicdr$getMinDelay(CallbackInfoReturnable<Integer> ci) {
-		if (MusicDr.MusicConfig.divide != null) {
-			if (MusicDr.MusicConfig.divide.get() && MusicDr.MusicConfig.division.get() > 0) {
-				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDr.MusicConfig.division.get())));
+		if (MusicDrConfig.General.divide != null) {
+			if (MusicDrConfig.General.divide.get() && MusicDrConfig.General.division.get() > 0) {
+				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDrConfig.General.division.get())));
 			} else {
-				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDr.MusicConfig.minDelay.get(), MusicDr.MusicConfig.minDelay.get(), MusicDr.MusicConfig.maxDelay.get()) * 20.0F));
+				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.maxDelay.get()) * 20.0F));
 			}
 		}
 	}
 
 	@Inject(method = "getMaxDelay", at = @At("RETURN"), cancellable = true)
 	public void musicdr$getMaxDelay(CallbackInfoReturnable<Integer> ci) {
-		if (MusicDr.MusicConfig.divide != null) {
-			if (MusicDr.MusicConfig.divide.get() && MusicDr.MusicConfig.division.get() > 0) {
-				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDr.MusicConfig.division.get())));
+		if (MusicDrConfig.General.divide != null) {
+			if (MusicDrConfig.General.divide.get() && MusicDrConfig.General.division.get() > 0) {
+				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDrConfig.General.division.get())));
 			} else {
-				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDr.MusicConfig.maxDelay.get(), MusicDr.MusicConfig.minDelay.get(), MusicDr.MusicConfig.maxDelay.get()) * 20.0F));
+				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDrConfig.General.maxDelay.get(), MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.maxDelay.get()) * 20.0F));
 			}
 		}
 	}
