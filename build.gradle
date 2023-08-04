@@ -3,6 +3,7 @@ buildscript {
 		maven { url = "https://maven.minecraftforge.net" }
 		maven { url = "https://plugins.gradle.org/m2/" }
 		maven { url = "https://repo.spongepowered.org/maven/" }
+		maven { url = "https://maven.shedaniel.me/" }
 		mavenCentral()
 	}
 	dependencies {
@@ -65,9 +66,14 @@ mixin {
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
+repositories {
+	maven { url "https://maven.shedaniel.me/" }
+}
+
 dependencies {
 	minecraft "net.minecraftforge:forge:${forge_version}"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+	implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${clothconfig_version}")
 }
 
 processResources {

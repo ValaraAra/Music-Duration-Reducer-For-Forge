@@ -1,16 +1,20 @@
 package net.ludocrypt.musicdr;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.ludocrypt.musicdr.config.MusicDrConfig;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 
 @Mod("musicdr")
 public class MusicDr {
 
 	public MusicDr() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, MusicDrConfig.client_config, "musicdr-client.toml");
+		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+				new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> AutoConfig.getConfigScreen(MusicDrConfig.class, parent).get()));
+		AutoConfig.register(MusicDrConfig.class, Toml4jConfigSerializer::new);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

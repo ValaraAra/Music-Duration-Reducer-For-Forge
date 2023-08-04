@@ -1,5 +1,6 @@
 package net.ludocrypt.musicdr.mixin;
 
+import me.shedaniel.autoconfig.AutoConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,23 +25,23 @@ public class MusicMixin {
 
 	@Inject(method = "getMinDelay", at = @At("RETURN"), cancellable = true)
 	public void musicdr$getMinDelay(CallbackInfoReturnable<Integer> ci) {
-		if (MusicDrConfig.General.divide != null) {
-			if (MusicDrConfig.General.divide.get() && MusicDrConfig.General.division.get() > 0) {
-				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDrConfig.General.division.get())));
-			} else {
-				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.maxDelay.get()) * 20.0F));
-			}
+		MusicDrConfig config = AutoConfig.getConfigHolder(MusicDrConfig.class).getConfig();
+
+		if (config.general.divide && config.general.division > 0) {
+			ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(config.general.division)));
+		} else {
+			ci.setReturnValue(Math.round((float) Mth.clamp(config.general.minDelay, config.general.minDelay, config.general.maxDelay) * 20.0F));
 		}
 	}
 
 	@Inject(method = "getMaxDelay", at = @At("RETURN"), cancellable = true)
 	public void musicdr$getMaxDelay(CallbackInfoReturnable<Integer> ci) {
-		if (MusicDrConfig.General.divide != null) {
-			if (MusicDrConfig.General.divide.get() && MusicDrConfig.General.division.get() > 0) {
-				ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(MusicDrConfig.General.division.get())));
-			} else {
-				ci.setReturnValue(Math.round((float) Mth.clamp(MusicDrConfig.General.maxDelay.get(), MusicDrConfig.General.minDelay.get(), MusicDrConfig.General.maxDelay.get()) * 20.0F));
-			}
+		MusicDrConfig config = AutoConfig.getConfigHolder(MusicDrConfig.class).getConfig();
+
+		if (config.general.divide && config.general.division > 0) {
+			ci.setReturnValue(Math.round((float) ci.getReturnValue() / (float) Math.abs(config.general.division)));
+		} else {
+			ci.setReturnValue(Math.round((float) Mth.clamp(config.general.maxDelay, config.general.minDelay, config.general.maxDelay) * 20.0F));
 		}
 	}
 }

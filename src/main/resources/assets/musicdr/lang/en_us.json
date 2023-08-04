@@ -1,0 +1,30 @@
+{
+  "text.autoconfig.musicdr.title": "Music Duration Reducer Config",
+
+
+  "text.autoconfig.musicdr.category.general": "General Config",
+
+  "text.autoconfig.musicdr.option.general.minDelay": "Min Delay",
+  "text.autoconfig.musicdr.option.general.minDelay.@Tooltip": "Minimum delay for next song to play.",
+  "text.autoconfig.musicdr.option.general.maxDelay": "Max Delay",
+  "text.autoconfig.musicdr.option.general.maxDelay.@Tooltip": "Maximum delay for next song to play.",
+  "text.autoconfig.musicdr.option.general.divide": "Divide",
+  "text.autoconfig.musicdr.option.general.divide.@Tooltip": "Divide delays of length instead?",
+  "text.autoconfig.musicdr.option.general.division": "Division",
+  "text.autoconfig.musicdr.option.general.division.@Tooltip": "Delay division amount.",
+
+  "text.autoconfig.musicdr.category.experimental": "Experimental Config",
+
+  "text.autoconfig.musicdr.option.experimental.distortPitch": "Distort Pitch",
+  "text.autoconfig.musicdr.option.experimental.distortPitch.@Tooltip": "Randomly change pitch every time a song starts?",
+  "text.autoconfig.musicdr.option.experimental.bellDistribution": "Use Bell Distribution",
+  "text.autoconfig.musicdr.option.experimental.bellDistribution.@Tooltip": "Use a bell curve to choose pitch?",
+  "text.autoconfig.musicdr.option.experimental.bellStandardDeviationReciprocal": "Bell Standard Deviation Reciprocal",
+  "text.autoconfig.musicdr.option.experimental.bellStandardDeviationReciprocal.@Tooltip": "The Standard Deviation Reciprocal to use for Bell Distribution.",
+  "text.autoconfig.musicdr.option.experimental.chanceToPitchChange": "Chance to Change Pitch",
+  "text.autoconfig.musicdr.option.experimental.chanceToPitchChange.@Tooltip": "The chance for a song to change pitch.",
+  "text.autoconfig.musicdr.option.experimental.minNoteChange": "Min Pitch Change",
+  "text.autoconfig.musicdr.option.experimental.minNoteChange.@Tooltip": "Minimum pitch change, set lower for slower/lower music.",
+  "text.autoconfig.musicdr.option.experimental.maxNoteChange": "Max Pitch Change",
+  "text.autoconfig.musicdr.option.experimental.maxNoteChange.@Tooltip": "Maximum pitch change, set higher for faster/higher music."
+}

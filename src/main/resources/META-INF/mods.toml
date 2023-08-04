@@ -20,3 +20,10 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/music-duration-reducer"
     versionRange="[34,)"
     ordering="NONE"
     side="CLIENT"
+
+[[dependencies.musicdr]]
+    modId = "cloth_config"
+    mandatory = true
+    versionRange = "[9.0.94,)"
+    ordering = "AFTER"
+    side = "CLIENT"

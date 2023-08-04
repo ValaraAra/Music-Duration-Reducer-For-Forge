@@ -2,6 +2,7 @@ package net.ludocrypt.musicdr.mixin;
 
 import java.util.Random;
 
+import me.shedaniel.autoconfig.AutoConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -17,22 +18,22 @@ public class SimpleSoundInstanceMixin {
 
 	@ModifyArg(method = "forMusic", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;<init>(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/sounds/SoundSource;FFLnet/minecraft/util/RandomSource;ZILnet/minecraft/client/resources/sounds/SoundInstance$Attenuation;DDDZ)V"), index = 3)
 	private static float musicdr$music(float in) {
-		if (MusicDrConfig.Experimental.chanceToPitchChange != null) {
-			if (MusicDrConfig.Experimental.distortPitch.get()) {
-				RandomSource random = SoundInstance.createUnseededRandom();
-				if (random.nextDouble() < MusicDrConfig.Experimental.chanceToPitchChange.get()) {
-					float note;
+		MusicDrConfig config = AutoConfig.getConfigHolder(MusicDrConfig.class).getConfig();
 
-					if (MusicDrConfig.Experimental.bellDistribution.get()) {
-						note = (float) Mth.clamp(normal(1.0D / MusicDrConfig.Experimental.bellStandardDeviationReciprocal.get()) * 0.25D, MusicDrConfig.Experimental.minNoteChange.get(), MusicDrConfig.Experimental.maxNoteChange.get());
-					} else {
-						note = Mth.nextFloat(random, (float) Mth.clamp(MusicDrConfig.Experimental.minNoteChange.get(), MusicDrConfig.Experimental.minNoteChange.get(), MusicDrConfig.Experimental.maxNoteChange.get()), (float) Mth.clamp(MusicDrConfig.Experimental.maxNoteChange.get(), MusicDrConfig.Experimental.minNoteChange.get(), MusicDrConfig.Experimental.maxNoteChange.get()));
-					}
+		if (config.experimental.distortPitch && config.experimental.chanceToPitchChange > 0) {
+			RandomSource random = SoundInstance.createUnseededRandom();
+			if (random.nextDouble() * 100D < config.experimental.chanceToPitchChange) {
+				float note;
 
-					float pitch = (float) Math.pow(2.0F, note / 12.0F);
-
-					return Mth.clamp(pitch, 0.5F, 2.0F);
+				if (config.experimental.bellDistribution) {
+					note = (float) Mth.clamp(normal(1.0D / config.experimental.bellStandardDeviationReciprocal) * 0.25D, config.experimental.minNoteChange, config.experimental.maxNoteChange);
+				} else {
+					note = Mth.nextFloat(random, (float) Mth.clamp(config.experimental.minNoteChange, config.experimental.minNoteChange, config.experimental.maxNoteChange), (float) Mth.clamp(config.experimental.maxNoteChange, config.experimental.minNoteChange, config.experimental.maxNoteChange));
 				}
+
+				float pitch = (float) Math.pow(2.0F, note / 12.0F);
+
+				return Mth.clamp(pitch, 0.5F, 2.0F);
 			}
 		}
 		return in;
