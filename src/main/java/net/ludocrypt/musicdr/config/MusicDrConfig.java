@@ -48,7 +48,7 @@ public class MusicDrConfig {
 
     static {
         General.init(client_builder);
-        General.init(client_builder);
+        Experimental.init(client_builder);
 
         client_config = client_builder.build();
 
