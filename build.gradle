@@ -1,33 +1,33 @@
 buildscript {
 	repositories {
-		maven { url = 'https://maven.minecraftforge.net' }
-		maven { url = 'https://plugins.gradle.org/m2/' }
-		maven { url = 'https://repo.spongepowered.org/maven/' }
+		maven { url = "https://maven.minecraftforge.net" }
+		maven { url = "https://plugins.gradle.org/m2/" }
+		maven { url = "https://repo.spongepowered.org/maven/" }
 		mavenCentral()
 	}
 	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-		classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "5.1.+", changing: true
+		classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
 	}
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "eclipse"
+apply plugin: "maven-publish"
+apply plugin: "org.spongepowered.mixin"
 
 
-version = "3.0.0-hotfix"
+version = "3.1.0"
 group = "net.ludocrypt.musicdr"
 archivesBaseName = "musicdr"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-	mappings channel: 'official', version: '1.19.2'
+	mappings channel: "official", version: "${minecraft_version}"
 	runs {
 		client {
-			workingDirectory project.file('run')
-			property 'forge.logging.console.level', 'debug'
+			workingDirectory project.file("run")
+			property "forge.logging.console.level", "debug"
 			mods {
 				musicdr {
 					source sourceSets.main
@@ -36,8 +36,8 @@ minecraft {
 		}
 
 		server {
-			workingDirectory project.file('run')
-			property 'forge.logging.console.level', 'debug'
+			workingDirectory project.file("run")
+			property "forge.logging.console.level", "debug"
 			mods {
 				musicdr {
 					source sourceSets.main
@@ -46,9 +46,9 @@ minecraft {
 		}
 
 		data {
-			workingDirectory project.file('run')
-			property 'forge.logging.console.level', 'debug'
-			args '--mod', 'musicdr', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+			workingDirectory project.file("run")
+			property "forge.logging.console.level", "debug"
+			args "--mod", "musicdr", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/")
 			mods {
 				musicdr {
 					source sourceSets.main
@@ -63,16 +63,24 @@ mixin {
 	config "${archivesBaseName}.mixins.json"
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources { srcDir "src/generated/resources" }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.19.2-43.1.34'
-	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+	minecraft "net.minecraftforge:forge:${forge_version}"
+	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("META-INF/mods.toml") {
+		expand "version": project.version
+	}
 }
 
 if (System.getProperty("idea.sync.active") == "true") {
 	afterEvaluate {
-		tasks.withType(JavaCompile).all {
+		tasks.withType(JavaCompile).configureEach {
 			it.options.annotationProcessorPath = files()
 		}
 	}
@@ -81,12 +89,13 @@ if (System.getProperty("idea.sync.active") == "true") {
 jar {
 	manifest {
 		attributes([
-				"MixinConfigs": "${archivesBaseName}.mixins.json"
+				"MixinConfigs": "${archivesBaseName}.mixins.json",
+				"Implementation-Version": project.version
 		])
 	}
 }
 
-jar.finalizedBy('reobfJar')
+jar.finalizedBy("reobfJar")
 
 publishing {
 	publications {

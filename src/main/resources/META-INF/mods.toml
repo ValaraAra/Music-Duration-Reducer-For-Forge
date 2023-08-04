@@ -1,19 +1,18 @@
 modLoader="javafml" #mandatory
 loaderVersion="[34,)"
-license="GNU Lesser General Public License v3.0"
 issueTrackerURL="https://github.com/LudoCrypt/Music-Duration-Reducer-For-Forge/issues"
+license="GNU Lesser General Public License v3.0"
+
 [[mods]]
 modId="musicdr"
-version="${file.jarVersion}"
+version="${version}"
 displayName="Music Duration Reducer"
+logoFile="icon.png"
+credits="LudoCrypt"
+authors="LudoCrypt, Valara"
+description="This is a mod that reduces the duration inbetween music. Cross mod compatablility!"
 updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/music-duration-reducer"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/music-duration-reducer"
-logoFile="logo.png"
-credits="LudoCrypt"
-authors="LudoCrypt"
-description='''
-This is a mod that reduces the duration inbetween music. Cross mod compatablility!
-'''
 
 [[dependencies.musicdr]] #optional
     modId="forge"
